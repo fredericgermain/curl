@@ -1046,6 +1046,9 @@ static CURLMcode multi_runsingle(struct Curl_multi *multi,
             }
           }
         }
+      } else {
+        /* failure detected */
+        multistate(data, CURLM_STATE_COMPLETED);
       }
       break;
 
