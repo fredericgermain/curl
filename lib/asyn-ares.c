@@ -132,7 +132,15 @@ void Curl_resolver_global_cleanup(void)
  */
 CURLcode Curl_resolver_init(void **resolver)
 {
-  int status = ares_init((ares_channel*)resolver);
+  int status;
+  struct ares_options options;
+
+  options.flags = ARES_FLAG_STAYOPEN;
+
+  status = ares_init_options((ares_channel*)resolver,
+	  &options, 
+	  ARES_OPT_FLAGS);
+
   if(status != ARES_SUCCESS) {
     if(status == ARES_ENOMEM)
       return CURLE_OUT_OF_MEMORY;
